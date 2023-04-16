@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, reactive, nextTick } from "vue";
+import { ref, reactive, nextTick, onMounted } from "vue";
 import { currentGET, GETNOBASE } from "@/api";
 import { registerMap, getMap } from "echarts/core";
-import { optionHandle, regionCodes } from "./center.map";
+import { optionHandle, regionCodes, setOptions } from "./center.map";
 import type { MapdataType } from "./center.map";
 const option = ref({});
 const code = ref("china"); //china 代表中国 其他地市是行政编码
@@ -22,22 +22,22 @@ const dataSetHandle = async (regionCode: string, list: object[]) => {
   let cityCenter: any = {};
   let mapData: MapdataType[] = [];
   //获取当前地图每块行政区中心点
-  geojson.features.forEach((element: any) => {
-    cityCenter[element.properties.name] =
-      element.properties.centroid || element.properties.center;
-  });
+  // geojson.features.forEach((element: any) => {
+  //   cityCenter[element.properties.name] =
+  //     element.properties.centroid || element.properties.center;
+  // });
   //当前中心点如果有此条数据中心点则赋值x，y当然这个x,y也可以后端返回进行大点，前端省去多行代码
-  list.forEach((item: any) => {
-    if (cityCenter[item.name]) {
-      mapData.push({
-        name: item.name,
-        value: cityCenter[item.name].concat(item.value),
-      });
-    }
-  });
+  // list.forEach((item: any) => {
+  //   if (cityCenter[item.name]) {
+  //     mapData.push({
+  //       name: item.name,
+  //       value: cityCenter[item.name].concat(item.value),
+  //     });
+  //   }
+  // });
   await nextTick();
 
-  option.value = optionHandle(regionCode, list, mapData);
+  option.value = setOptions(geojson);
 };
 
 const getData = async (regionCode: string) => {
@@ -48,6 +48,9 @@ const getData = async (regionCode: string) => {
     }
   });
 };
+onMounted(() => {
+  console.log("onMounted");
+});
 const getGeojson = (regionCode: string) => {
   return new Promise<boolean>(async (resolve) => {
     let mapjson = getMap(regionCode);
@@ -55,15 +58,21 @@ const getGeojson = (regionCode: string) => {
       mapjson = mapjson.geoJSON;
       resolve(mapjson);
     } else {
-      mapjson = await GETNOBASE(`./map-geojson/${regionCode}.json`).then(
-        (data) => data
-      );
-      code.value=regionCode
-      registerMap(regionCode, {
-        geoJSON: mapjson as any,
-        specialAreas: {},
+      mapjson = await GETNOBASE(`./flights.json`).then((data) => data);
+      console.log("mapjson", mapjson);
+      const getAirportCoord = (idx: string | number) => {
+        return [mapjson.airports[idx][3], mapjson.airports[idx][4]];
+      };
+      const routes = mapjson.routes.map(function (airline: any[]) {
+        return [getAirportCoord(airline[1]), getAirportCoord(airline[2])];
       });
-      resolve(mapjson);
+
+      // code.value = regionCode;
+      // registerMap(regionCode, {
+      //   geoJSON: mapjson as any,
+      //   specialAreas: {},
+      // });
+      resolve(routes);
     }
   });
 };
@@ -75,8 +84,7 @@ const mapClick = (params: any) => {
   if (xzqData) {
     getData(xzqData.adcode);
   } else {
-
-    window["$message"].warning("暂无下级地市")
+    window["$message"].warning("暂无下级地市");
   }
 };
 </script>
@@ -89,15 +97,11 @@ const mapClick = (params: any) => {
       <div class="you"></div>
     </div> -->
     <div class="mapwrap">
-      <div class="quanguo" @click="getData('china')" v-if="code !== 'china'">
-        中国
-      </div>
       <v-chart
         class="chart"
         :option="option"
         ref="centerMapRef"
-        @click="mapClick"
-        v-if="JSON.stringify(option)!='{}'"
+        v-if="JSON.stringify(option) != '{}'"
       />
     </div>
   </div>
@@ -147,7 +151,7 @@ const mapClick = (params: any) => {
   }
 
   .mapwrap {
-    height: 580px;
+    height: 680px;
     width: 100%;
     // padding: 0 0 10px 0;
     box-sizing: border-box;
@@ -156,8 +160,8 @@ const mapClick = (params: any) => {
     .quanguo {
       position: absolute;
       right: 20px;
-    //   top: -46px;
-    top: 0;
+      //   top: -46px;
+      top: 0;
       width: 80px;
       height: 28px;
       border: 1px solid #00eded;
@@ -169,7 +173,7 @@ const mapClick = (params: any) => {
       cursor: pointer;
       box-shadow: 0 2px 4px rgba(0, 237, 237, 0.5),
         0 0 6px rgba(0, 237, 237, 0.4);
-        z-index: 10;
+      z-index: 10;
     }
   }
 }

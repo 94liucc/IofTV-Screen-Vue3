@@ -2,51 +2,97 @@
 import { reactive, ref } from "vue";
 import { currentGET } from "@/api";
 import CountUp from "@/components/count-up";
+
 const duration = ref(2);
-const state = reactive({
-  alarmNum: 759,
-  offlineNum: 44,
-  onlineNum: 654,
-  totalNum: 698,
+// const state = reactive({
+//   alarmNum: 759,
+//   offlineNum: 44,
+//   onlineNum: 654,
+//   totalNum: 698,
+// });
+const onlineOption = reactive({
+  tooltip: {
+    formatter: "{a} <br/>{b} : {c}%",
+  },
+  series: [
+    {
+      name: "Pressure",
+      type: "gauge",
+      max: 700,
+      progress: {
+        show: true,
+      },
+      splitNumber: 30,
+      splitLine: {
+        show: true,
+        lineStyle: { color: "white", width: 1 },
+      },
+      axisLabel: {
+        show: false,
+      },
+      title: {
+        offsetCenter: [0, "130%"],
+        color: "#07f7a8",
+        fontStyle: "italic",
+      },
+      axisTick: {
+        show: false,
+      },
+      itemStyle: {
+        color: "#07f7a8",
+      },
+      detail: {
+        valueAnimation: true,
+        formatter: "{value}",
+        fontStyle: "italic",
+        fontWeight: "normal",
+        fontSize: 12,
+        color: "green",
+      },
+      data: [
+        {
+          value: 550,
+          name: "设备在线数",
+        },
+      ],
+    },
+  ],
 });
 
-const getData = () => {
-  currentGET("leftTop").then((res) => {
-    console.log(res);
-    if (res.success) {
-      state.alarmNum = res.data.alarmNum;
-      state.offlineNum = res.data.offlineNum;
-      state.onlineNum = res.data.onlineNum;
-      state.totalNum = res.data.totalNum;
-    }
-  });
-};
-getData();
+// const getData = () => {
+//   currentGET("leftTop").then((res) => {
+//     console.log(res);
+//     if (res.success) {
+//       state.alarmNum = res.data.alarmNum;
+//       state.offlineNum = res.data.offlineNum;
+//       state.onlineNum = res.data.onlineNum;
+//       state.totalNum = res.data.totalNum;
+//     }
+//   });
+// };
+// getData();
 </script>
 
 <template>
   <ul class="user_Overview flex">
     <li class="user_Overview-item" style="color: #00fdfa">
-      <div class="user_Overview_nums allnum">
-        <CountUp :endVal="state.totalNum" :duration="duration" />
-      </div>
-      <p>总设备数</p>
+      <v-chart :option="onlineOption"></v-chart>
     </li>
     <li class="user_Overview-item" style="color: #07f7a8">
       <div class="user_Overview_nums online">
-        <CountUp :endVal="state.onlineNum" :duration="duration" />
+        <!-- <CountUp :endVal="state.onlineNum" :duration="duration" /> -->
       </div>
       <p>在线数</p>
     </li>
     <li class="user_Overview-item" style="color: #e3b337">
       <div class="user_Overview_nums offline">
-        <CountUp :endVal="state.offlineNum" :duration="duration" />
+        <!-- <CountUp :endVal="state.offlineNum" :duration="duration" /> -->
       </div>
       <p>掉线数</p>
     </li>
     <li class="user_Overview-item" style="color: #f5023d">
       <div class="user_Overview_nums laramnum">
-        <CountUp :endVal="state.alarmNum" :duration="duration" />
+        <!-- <CountUp :endVal="state.alarmNum" :duration="duration" /> -->
       </div>
       <p>告警次数</p>
     </li>
