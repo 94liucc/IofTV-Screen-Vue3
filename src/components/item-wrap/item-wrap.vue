@@ -8,15 +8,14 @@ const props = withDefaults(
     title: "",
   }
 );
-
 </script>
 
 <template>
   <div class="item-wrap">
     <div class="item_title" v-if="title !== ''">
-      <div class="zuo"></div>
-      <span class="title-inner"> &nbsp;&nbsp;{{title}}&nbsp;&nbsp; </span>
-      <div class="you"></div>
+      <!-- <div class="zuo"></div> -->
+      <span class="title-inner"> &nbsp;&nbsp;{{ title }}&nbsp;&nbsp; </span>
+      <!-- <div class="you"></div> -->
     </div>
     <div
       :class="title !== '' ? 'item_title_content' : 'item_title_content_def'"
@@ -59,12 +58,7 @@ $item_title_content-height: calc(100% - 38px);
   .title-inner {
     font-weight: 900;
     letter-spacing: 2px;
-    background: linear-gradient(
-      92deg,
-      #0072ff 0%,
-      #00eaff 48.8525390625%,
-      #01aaff 100%
-    );
+    background: linear-gradient(92deg, #8e2de2 0%, #e7e3f1 50%, #4a00e0 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }

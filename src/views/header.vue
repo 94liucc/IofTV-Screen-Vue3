@@ -1,25 +1,25 @@
 <script setup lang="ts">
 import { reactive } from "vue";
-import dayjs from 'dayjs';
-import type {DateDataType} from "./index.d"
-import {useSettingStore} from "@/stores/index"
+import dayjs from "dayjs";
+import type { DateDataType } from "./index.d";
+import { useSettingStore } from "@/stores/index";
 
 const dateData = reactive<DateDataType>({
   dateDay: "",
   dateYear: "",
   dateWeek: "",
-  timing:null
+  timing: null,
 });
 
-const { setSettingShow} =useSettingStore()
-const weekday= ["周日", "周一", "周二", "周三", "周四", "周五", "周六"]
+const { setSettingShow } = useSettingStore();
+const weekday = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
 const timeFn = () => {
   dateData.timing = setInterval(() => {
     dateData.dateDay = dayjs().format("YYYY-MM-DD hh : mm : ss");
     dateData.dateWeek = weekday[dayjs().day()];
   }, 1000);
 };
-timeFn()
+timeFn();
 </script>
 
 <template>
@@ -29,15 +29,15 @@ timeFn()
     <div class="guang"></div>
     <div class="d-flex jc-center">
       <div class="title">
-        <span class="title-text">互联网设备可视化平台</span>
+        <span class="title-text">工业互联网大数据平台</span>
       </div>
     </div>
     <div class="timers">
       {{ dateData.dateYear }} {{ dateData.dateWeek }} {{ dateData.dateDay }}
 
-      <div class="setting_icon"   @click="setSettingShow(true)">
-          <img src="@/assets/img/headers/setting.png" alt="设置">
-      </div>
+      <!-- <div class="setting_icon" @click="setSettingShow(true)">
+        <img src="@/assets/img/headers/setting.png" alt="设置" />
+      </div> -->
     </div>
   </div>
 </template>
@@ -91,7 +91,7 @@ timeFn()
       height: 20px;
       cursor: pointer;
       margin-left: 12px;
-      img{
+      img {
         width: 100%;
         height: 100%;
       }
@@ -112,12 +112,7 @@ timeFn()
     font-weight: 900;
     letter-spacing: 6px;
     width: 100%;
-    background: linear-gradient(
-      92deg,
-      #0072ff 0%,
-      #00eaff 48.8525390625%,
-      #01aaff 100%
-    );
+    background: linear-gradient(92deg, #8e2de2 0%, #e7e3f1 50%, #4a00e0 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
