@@ -1,16 +1,10 @@
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { reactive, onMounted } from "vue";
 import { currentGET } from "@/api";
 import CountUp from "@/components/count-up";
+import { clone, cloneDeep } from "lodash";
 
-const duration = ref(2);
-// const state = reactive({
-//   alarmNum: 759,
-//   offlineNum: 44,
-//   onlineNum: 654,
-//   totalNum: 698,
-// });
-const onlineOption = reactive({
+const getOption = {
   tooltip: {
     formatter: "{a} <br/>{b} : {c}%",
   },
@@ -32,14 +26,14 @@ const onlineOption = reactive({
       },
       title: {
         offsetCenter: [0, "130%"],
-        color: "#07f7a8",
+        color: "#66cc00",
         fontStyle: "italic",
       },
       axisTick: {
         show: false,
       },
       itemStyle: {
-        color: "#07f7a8",
+        color: "#66cc00",
       },
       detail: {
         valueAnimation: true,
@@ -57,20 +51,30 @@ const onlineOption = reactive({
       ],
     },
   ],
-});
+};
 
-// const getData = () => {
-//   currentGET("leftTop").then((res) => {
-//     console.log(res);
-//     if (res.success) {
-//       state.alarmNum = res.data.alarmNum;
-//       state.offlineNum = res.data.offlineNum;
-//       state.onlineNum = res.data.onlineNum;
-//       state.totalNum = res.data.totalNum;
-//     }
-//   });
-// };
-// getData();
+const onlineOption = reactive(cloneDeep(getOption));
+const onPlan = reactive(cloneDeep(getOption));
+const outPut = reactive(cloneDeep(getOption));
+onMounted(() => {
+  const onPlanSeries = onPlan.series[0];
+  onPlanSeries.max = 1000;
+  onPlanSeries.title.color = "#99ccff";
+  onPlanSeries.itemStyle.color = "#99ccff";
+  onPlanSeries.data[0].value = 100;
+  onPlanSeries.data[0].name = "计划达成";
+
+  const onOutPutSeries = outPut.series[0];
+  onOutPutSeries.max = 1200;
+  onOutPutSeries.title.color = "#BF242A";
+  onOutPutSeries.itemStyle.color = "#BF242A";
+  onOutPutSeries.data[0].value = 200;
+  onOutPutSeries.data[0].name = "产量";
+});
+setInterval(() => {
+  onPlan.series[0].data[0].value += 3;
+  outPut.series[0].data[0].value += 4;
+}, 10000);
 </script>
 
 <template>
@@ -79,22 +83,10 @@ const onlineOption = reactive({
       <v-chart :option="onlineOption"></v-chart>
     </li>
     <li class="user_Overview-item" style="color: #07f7a8">
-      <div class="user_Overview_nums online">
-        <!-- <CountUp :endVal="state.onlineNum" :duration="duration" /> -->
-      </div>
-      <p>在线数</p>
+      <v-chart :option="onPlan"></v-chart>
     </li>
     <li class="user_Overview-item" style="color: #e3b337">
-      <div class="user_Overview_nums offline">
-        <!-- <CountUp :endVal="state.offlineNum" :duration="duration" /> -->
-      </div>
-      <p>掉线数</p>
-    </li>
-    <li class="user_Overview-item" style="color: #f5023d">
-      <div class="user_Overview_nums laramnum">
-        <!-- <CountUp :endVal="state.alarmNum" :duration="duration" /> -->
-      </div>
-      <p>告警次数</p>
+      <v-chart :option="outPut"></v-chart>
     </li>
   </ul>
 </template>
@@ -108,12 +100,8 @@ const onlineOption = reactive({
 .user_Overview {
   li {
     flex: 1;
-
-    p {
-      text-align: center;
-      height: 16px;
-      font-size: 16px;
-    }
+    width: 100px;
+    height: 200px;
 
     .user_Overview_nums {
       width: 100px;

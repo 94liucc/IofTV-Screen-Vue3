@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, nextTick } from "vue";
 import { currentGET } from "@/api";
-import {graphic} from "echarts/core"
+import { graphic } from "echarts/core";
 const option = ref({});
 const getData = () => {
   currentGET("centerBottom", {}).then((res) => {
@@ -16,7 +16,7 @@ const getData = () => {
     }
   });
 };
-const setOption =async (newData: any) => {
+const setOption = async (newData: any) => {
   option.value = {
     tooltip: {
       trigger: "axis",
@@ -30,7 +30,7 @@ const setOption =async (newData: any) => {
         var result = params[0].name + "<br>";
         params.forEach(function (item: any) {
           if (item.value) {
-            if (item.seriesName == "安装率") {
+            if (item.seriesName == "达成率") {
               result +=
                 item.marker +
                 " " +
@@ -55,7 +55,7 @@ const setOption =async (newData: any) => {
       },
     },
     legend: {
-      data: ["已安装", "计划安装", "安装率"],
+      data: ["产量", "计划产量", "达成率"],
       textStyle: {
         color: "#B4B4B4",
       },
@@ -105,7 +105,7 @@ const setOption =async (newData: any) => {
     ],
     series: [
       {
-        name: "已安装",
+        name: "产量",
         type: "bar",
         barWidth: 10,
         itemStyle: {
@@ -118,7 +118,7 @@ const setOption =async (newData: any) => {
         data: newData.barData,
       },
       {
-        name: "计划安装",
+        name: "计划产量",
         type: "bar",
         barGap: "-100%",
         barWidth: 10,
@@ -134,7 +134,7 @@ const setOption =async (newData: any) => {
         data: newData.lineData,
       },
       {
-        name: "安装率",
+        name: "达成率",
         type: "line",
         smooth: true,
         showAllSymbol: true,
@@ -149,14 +149,17 @@ const setOption =async (newData: any) => {
     ],
   };
 };
-onMounted(()=>{
-getData();
-
-})
+onMounted(() => {
+  getData();
+});
 </script>
 
 <template>
-  <v-chart class="chart" :option="option" v-if="JSON.stringify(option)!='{}'"/>
+  <v-chart
+    class="chart"
+    :option="option"
+    v-if="JSON.stringify(option) != '{}'"
+  />
 </template>
 
 <style scoped lang="scss"></style>

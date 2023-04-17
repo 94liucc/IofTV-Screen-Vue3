@@ -4,9 +4,9 @@ import SeamlessScroll from "@/components/seamless-scroll";
 import { computed, onMounted, reactive } from "vue";
 import { useSettingStore } from "@/stores";
 import { storeToRefs } from "pinia";
-import EmptyCom from "@/components/empty-com"
+import EmptyCom from "@/components/empty-com";
 const settingStore = useSettingStore();
-const { defaultOption,indexConfig } = storeToRefs(settingStore);
+const { defaultOption, indexConfig } = storeToRefs(settingStore);
 const state = reactive<any>({
   list: [],
   defaultOption: {
@@ -18,7 +18,7 @@ const state = reactive<any>({
 });
 
 const getData = () => {
-  currentGET("leftBottom", { limitNum: 20 }).then((res) => {
+  currentGET("leftBottom", { limitNum: 200 }).then((res) => {
     console.log("设备提醒", res);
     if (res.success) {
       state.list = res.data.list;
@@ -40,22 +40,25 @@ const addressHandle = (item: any) => {
   }
   return name;
 };
-const comName = computed(()=>{
-    if(indexConfig.value.leftBottomSwiper){
-        return SeamlessScroll
-    }else{
-        return EmptyCom
-    }
-})
+const comName = computed(() => {
+  if (indexConfig.value.leftBottomSwiper) {
+    return SeamlessScroll;
+  } else {
+    return EmptyCom;
+  }
+});
 onMounted(() => {
   getData();
 });
 </script>
 
 <template>
-  <div class="left_boottom_wrap beautify-scroll-def"  :class="{ 'overflow-y-auto': !indexConfig.leftBottomSwiper }">
+  <div
+    class="left_boottom_wrap beautify-scroll-def"
+    :class="{ 'overflow-y-auto': !indexConfig.leftBottomSwiper }"
+  >
     <component
-     :is="comName"
+      :is="comName"
       :list="state.list"
       v-model="state.scroll"
       :singleHeight="state.defaultOption.singleHeight"

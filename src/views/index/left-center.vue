@@ -45,7 +45,7 @@ const setOption = () => {
             fontSize: 24,
             fontWeight: "bold",
             lineHeight: 20,
-            padding:[4,0,4,0]
+            padding: [4, 0, 4, 0],
           },
           name: {
             color: "#ffffff",

@@ -15,26 +15,25 @@ import RightBottom from "./right-bottom.vue";
     <div class="contetn_left">
       <!-- <div class="pagetab">
         <div class="item">实时监测</div>
-        <div class="item">统计分析</div>
+        <div class="item">统计分析</div> <LeftCenter />
       </div> -->
       <ItemWrap class="contetn_left-top contetn_lr-item" title="今日数据">
         <LeftTop />
       </ItemWrap>
-      <ItemWrap class="contetn_left-center contetn_lr-item" title="用户总览">
-        <LeftCenter />
+      <ItemWrap class="contetn_left-center contetn_lr-item" title="产能历史">
+        <CenterBottom />
       </ItemWrap>
       <ItemWrap
         class="contetn_left-bottom contetn_lr-item"
-        title="设备提醒"
+        title=""
         style="padding: 0 10px 16px 10px"
       >
-        <LeftBottom />
       </ItemWrap>
     </div>
     <div class="contetn_center">
       <CenterMap class="contetn_center_top" title="设备分布图" />
-      <ItemWrap class="contetn_center-bottom" title="安装计划">
-        <CenterBottom />
+      <ItemWrap class="contetn_center-bottom" title="设备提醒">
+        <LeftBottom />
       </ItemWrap>
     </div>
     <div class="contetn_right">
@@ -49,7 +48,7 @@ import RightBottom from "./right-bottom.vue";
         <RightCenter />
       </ItemWrap>
       <ItemWrap class="contetn_left-bottom contetn_lr-item" title="数据统计图 ">
-        <RightBottom />
+        <!-- <RightBottom /> -->
       </ItemWrap>
     </div>
   </div>
