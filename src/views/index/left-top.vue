@@ -33,7 +33,29 @@ const getOption = {
         show: false,
       },
       itemStyle: {
-        color: "#66cc00",
+        color: {
+          type: "linear",
+          x: 0,
+          y: 1,
+          x2: 1,
+          y2: 1,
+          colorStops: [
+            {
+              offset: 0,
+              color: "#0cebeb",
+            },
+            {
+              offset: 0.5,
+              color: "#20e3b2",
+            },
+
+            {
+              offset: 1,
+              color: "#29ffc6",
+            },
+          ],
+          global: false, // default is false
+        },
       },
       detail: {
         valueAnimation: true,

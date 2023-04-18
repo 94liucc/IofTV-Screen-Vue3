@@ -57,26 +57,26 @@ const setOption = () => {
     tooltip: {
       trigger: "item",
       backgroundColor: "rgba(0,0,0,.6)",
-      borderColor: "rgba(147, 235, 248, .8)",
+      // borderColor: "rgba(147, 235, 248, .8)",
       textStyle: {
         color: "#FFF",
       },
     },
     series: [
       {
-        name: "用户总览",
+        name: "设备详情",
         type: "pie",
         radius: ["40%", "70%"],
         // avoidLabelOverlap: false,
         itemStyle: {
-          borderRadius: 6,
+          // borderRadius: 6,
           borderColor: "rgba(255,255,255,0)",
           borderWidth: 2,
         },
         color: colors,
         label: {
           show: true,
-          formatter: "   {b|{b}}   \n   {c|{c}个}   {per|{d}%}  ",
+          formatter: "   {b|{b}}   \n   {c|{c}个} \n  {per|{d}%}  ",
           //   position: "outside",
           rich: {
             b: {
