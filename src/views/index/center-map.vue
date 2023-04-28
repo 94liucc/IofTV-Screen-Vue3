@@ -44,7 +44,6 @@ const getData = async (regionCode: string) => {
   currentGET("centerMap", { regionCode: regionCode }).then((res) => {
     console.log("设备分布", res);
     if (res.success) {
-      dataSetHandle(res.data.regionCode, res.data.dataList);
     }
   });
 };
@@ -59,7 +58,7 @@ const getGeojson = (regionCode: string) => {
       resolve(mapjson);
     } else {
       mapjson = await GETNOBASE(`./flights.json`).then((data) => data);
-      console.log("mapjson", mapjson);
+      // console.log("mapjson", mapjson);
       const getAirportCoord = (idx: string | number) => {
         return [mapjson.airports[idx][3], mapjson.airports[idx][4]];
       };
@@ -76,7 +75,8 @@ const getGeojson = (regionCode: string) => {
     }
   });
 };
-getData(code.value);
+// getData(code.value);
+dataSetHandle("", []);
 
 const mapClick = (params: any) => {
   console.log(params);

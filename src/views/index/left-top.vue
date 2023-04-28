@@ -150,29 +150,29 @@ setInterval(() => {
       }
     }
 
-    .allnum {
-      &::before {
-        background-image: url("@/assets/img/left_top_lan.png");
-      }
-    }
+    // .allnum {
+    //   &::before {
+    //     background-image: url("@/assets/img/left_top_lan.png");
+    //   }
+    // }
 
-    .online {
-      &::before {
-        background-image: url("@/assets/img/left_top_lv.png");
-      }
-    }
+    // .online {
+    //   &::before {
+    //     background-image: url("@/assets/img/left_top_lv.png");
+    //   }
+    // }
 
-    .offline {
-      &::before {
-        background-image: url("@/assets/img/left_top_huang.png");
-      }
-    }
+    // .offline {
+    //   &::before {
+    //     background-image: url("@/assets/img/left_top_huang.png");
+    //   }
+    // }
 
-    .laramnum {
-      &::before {
-        background-image: url("@/assets/img/left_top_hong.png");
-      }
-    }
+    // .laramnum {
+    //   &::before {
+    //     background-image: url("@/assets/img/left_top_hong.png");
+    //   }
+    // }
   }
 }
 </style>
